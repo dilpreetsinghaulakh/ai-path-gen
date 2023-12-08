@@ -9,6 +9,7 @@ const openai = new OpenAI({
 
 export default function Home() {
   const languageInputRef = useRef(null);
+  const frameworkInputRef = useRef(null);
 
   async function makeChatRequest(promptInput) {
     return openai.chat.completions.create({
@@ -19,7 +20,12 @@ export default function Home() {
 
   async function handleClick() {
     // TEST INPUT
-    const prompt = `Give me the JSON for an array object called "ideas" containing ideas that suggest user 10 ideas to work on who know [${languageInputRef.current.value}] which are objects having title, description, skillLevel (0 for beginner, 1 for intermediate and 2 for advanced) and skills as keys.`;
+    let prompt = `Give me the JSON for an array object called "paths" containing 10 learning paths that suggest user for learning new programming skills related to its knowledge which are in form of objects which have title, description and skills (new or old) as keys. The user knows [${languageInputRef.current.value}] languages.`;
+
+    if (frameworkInputRef.current.value) {
+      prompt += ` The user knows [${frameworkInputRef.current.value}] frameworks.`;
+    }
+
     console.log(prompt);
 
     let ideas;
@@ -34,27 +40,35 @@ export default function Home() {
       });
 
     console.log(paths);
-
   }
 
   const inputClass =
-    "w-full p-4 bg-gray-200 dark:bg-neutral-900 text-black dark:text-white border-2 border-gray-300 dark:border-neutral-800 rounded-lg focus:outline-none focus:border-blue-500 dark:focus:border-blue-300 transition-colors";
+    "w-full p-4 bg-gray-100 dark:bg-neutral-900 text-black dark:text-white border-2 border-gray-300 dark:border-neutral-800 rounded-lg focus:outline-none focus:border-blue-500 dark:focus:border-blue-300 transition-colors";
 
   return (
-    <main className="flex flex-col items-center gap-4 justify-center max-w-7xl mx-auto px-16 w-screen h-screen">
-      <input
-        ref={languageInputRef}
-        type="text"
-        className={inputClass}
-        placeholder="Languages you know separated by comma ( , )"
-      />
+    <main>
+      <div className="flex flex-col items-center gap-4 justify-center max-w-7xl mx-auto px-16 w-screen h-screen">
+        <input
+          ref={languageInputRef}
+          type="text"
+          className={inputClass}
+          placeholder="Languages you know separated by comma ( , )"
+        />
 
-      <button
-        onClick={handleClick}
-        className="px-12 py-4 rounded-lg text-white dark:text-black bg-black dark:bg-white hover:bg-neutral-800 dark:hover:bg-gray-200 font-bold active:scale-[0.98] active:duration-200 transition"
-      >
-        Get Path
-      </button>
+        <input
+          ref={frameworkInputRef}
+          type="text"
+          className={inputClass}
+          placeholder="Framework/Libraries you know separated by comma ( , )"
+        />
+
+        <button
+          onClick={handleClick}
+          className="px-12 py-4 rounded-lg text-white dark:text-black bg-black dark:bg-white hover:bg-neutral-800 dark:hover:bg-gray-200 font-bold active:scale-[0.98] active:duration-200 transition"
+        >
+          Get Path
+        </button>
+      </div>
     </main>
   );
 }
