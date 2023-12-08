@@ -1,17 +1,21 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Header from "./header";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'AI Path Generator',
-  description: 'Generates a path for you to learn new skills.',
-}
+  title: "AI Path Generator",
+  description: "Generates a path for you to learn new skills.",
+};
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header />
+        {children}
+      </body>
     </html>
-  )
+  );
 }
