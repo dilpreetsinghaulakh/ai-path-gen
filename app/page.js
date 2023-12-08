@@ -48,7 +48,10 @@ export default function Home() {
 
   return (
     <main>
-      <div className=" max-w-7xl mx-auto px-16 w-screen" id="mainContent">
+      <div
+        className="max-w-7xl mx-auto px-8 sm:px-16 w-screen"
+        id="mainContent"
+      >
         <div className="flex flex-col items-center h-full gap-10 justify-center">
           <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-gray-100">
             Learning Path Generator
@@ -56,8 +59,8 @@ export default function Home() {
           <p className="text-center text-gray-500 dark:text-gray-400 max-w-3xl">
             This is an AI powered learning path generator which suggests you the
             best learning path for you to learn new programming skills based on
-            your current knowledge. It uses GPT-3.5 to generate the learning
-            paths.
+            your current knowledge. It uses GPT-3.5 Turbo to generate the
+            learning paths.
           </p>
 
           <Link
