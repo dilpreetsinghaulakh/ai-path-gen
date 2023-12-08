@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { OpenAI } from "openai";
+import Header from "../app/header";
 
 const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -47,7 +48,8 @@ export default function Home() {
 
   return (
     <main>
-      <div className="flex flex-col items-center gap-4 justify-center max-w-7xl mx-auto px-16 w-screen h-screen">
+      <Header />
+      <div className="flex flex-col items-center gap-4 justify-center max-w-7xl mx-auto px-16 w-screen" id="mainContent">
         <input
           ref={languageInputRef}
           type="text"
