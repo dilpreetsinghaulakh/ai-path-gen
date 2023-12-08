@@ -10,28 +10,31 @@ const openai = new OpenAI({
 export default function Home() {
   const languageInputRef = useRef(null);
 
-  function handleClick() {
+  async function makeChatRequest(promptInput) {
+    return openai.chat.completions.create({
+      messages: [{ role: "system", content: promptInput }],
+      model: "gpt-3.5-turbo",
+    });
+  }
+
+  async function handleClick() {
     // TEST INPUT
-    const input = `Give me the JSON for an array object called "ideas" containing ideas that suggest user 10 ideas to work on who know [${languageInputRef.current.value}] which are objects having title, description, skillLevel (0 for beginner, 1 for intermediate and 2 for advanced) and skills as keys.`;
-    console.log(input);
+    const prompt = `Give me the JSON for an array object called "ideas" containing ideas that suggest user 10 ideas to work on who know [${languageInputRef.current.value}] which are objects having title, description, skillLevel (0 for beginner, 1 for intermediate and 2 for advanced) and skills as keys.`;
+    console.log(prompt);
 
     let ideas;
 
-    async function result() {
-      await openai.chat.completions
-        .create({
-          messages: [{ role: "system", content: input }],
-          model: "gpt-3.5-turbo",
-        })
-        .then((res) => {
-          ideas = JSON.parse(res.choices[0].message.content);
+    const paths = await makeChatRequest(prompt)
+      .then((res) => {
+        ideas = res.choices[0].message.content;
+        return Promise.resolve(ideas);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-          console.log(ideas);
-          return ideas;
-        });
-    }
+    console.log(paths);
 
-    result().then();
   }
 
   const inputClass =
