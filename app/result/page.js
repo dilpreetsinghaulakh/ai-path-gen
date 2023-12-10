@@ -1,8 +1,6 @@
 "use client";
 import { OpenAI } from "openai";
-
-const userKnowledge = JSON.parse(sessionStorage.getItem("userKnowledge"));
-sessionStorage.clear();
+import { useEffect } from "react";
 
 const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -15,12 +13,12 @@ async function makeChatRequest(promptInput) {
     model: "gpt-3.5-turbo",
   });
 }
-async function getResult() {
+async function getResult(languages, frameworks) {
   // TEST INPUT
-  let prompt = `Give me the JSON for an array object called "paths" containing 10 learning paths that suggest user for learning new programming skills which are related to what he knows. Paths should be in the form of objects which have title, description and skills (new or old) as keys. The user knows [${userKnowledge.lang}] language(s).`;
+  let prompt = `Give me the JSON for an array object called "paths" containing 10 learning paths that suggest user for learning new programming skills which are related to what he knows. Paths should be in the form of objects which have title, description and skills (new or old) as keys. The user knows [${languages}] language(s).`;
 
-  if (userKnowledge.framework) {
-    prompt += ` The user knows [${userKnowledge.framework}] frameworks.`;
+  if (frameworks) {
+    prompt += ` The user knows [${frameworks}] frameworks.`;
   }
 
   console.log(prompt);
@@ -39,9 +37,18 @@ async function getResult() {
   console.log(paths);
 }
 
-getResult();
-
 export default function Home() {
+  useEffect(() => {
+    if (sessionStorage.getItem("userKnowledge")) {
+      const userKnowledge = JSON.parse(sessionStorage.getItem("userKnowledge"));
+      sessionStorage.clear();
+
+      console.log(userKnowledge);
+
+      getResult(userKnowledge.lang, userKnowledge.framework);
+    }
+  }, []);
+
   return (
     <main
       className=" max-w-7xl mx-auto px-8 sm:px-16 w-screen"
