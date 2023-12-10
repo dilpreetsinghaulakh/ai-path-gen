@@ -19,6 +19,16 @@ body {
   background: rgb(var(--background-rgb));
 }
 
-#mainContent{
+#mainContent {
   height: calc(100vh - 10rem);
+}
+
+.loading-animation {
+  animation: gradient 5s infinite linear;
+}
+
+@keyframes gradient {
+  to {
+    background-position: 300% center;
+  }
 }
