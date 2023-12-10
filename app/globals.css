@@ -29,6 +29,6 @@ body {
 
 @keyframes gradient {
   to {
-    background-position: 300% center;
+    background-position: 200% center;
   }
 }

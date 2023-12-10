@@ -57,7 +57,7 @@ function Loading() {
 
 function Result({ paths }) {
   return (
-    <div className="text-center text-gray-500 dark:text-gray-400 max-w-3xl h-full overflow-scroll flex flex-col gap-6">
+    <div className="text-center text-gray-500 dark:text-gray-400 max-w-3xl w-full h-full flex flex-col gap-6">
       <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-gray-100">
         Paths Generated
       </h1>
@@ -77,15 +77,17 @@ function Result({ paths }) {
           <p className="text-center text-gray-500 dark:text-gray-400 max-w-3xl">
             {path.description}
           </p>
-          <div className="flex gap-2 justify-center">
-            {path.skills.map((skill, index) => (
-              <p
-                className="bg-gray-100 border border-gray-300 dark:bg-neutral-800 px-2 py-1 rounded-lg text-gray-700 dark:text-gray-300 max-w-3xl"
-                key={index}
-              >
-                {skill}
-              </p>
-            ))}
+          <div className="w-full overflow-x-scroll">
+            <div className="flex w-fit gap-2 mx-auto">
+              {path.skills.map((skill, index) => (
+                <p
+                  className="bg-gray-100 border border-gray-300 dark:bg-neutral-800 px-2 py-1 rounded-lg text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                  key={index}
+                >
+                  {skill}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       ))}
