@@ -68,7 +68,7 @@ function Result({ paths }) {
       </p>
       {paths.map((path, index) => (
         <div
-          className="flex flex-col max-w-3xl w-full gap-2 bg-gray-200 p-4 rounded-xl border border-gray-400"
+          className="flex flex-col max-w-3xl w-full gap-2 bg-gray-200 dark:bg-neutral-950 p-4 rounded-xl border border-gray-400 dark:border-neutral-800"
           key={index}
         >
           <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100">
@@ -81,7 +81,7 @@ function Result({ paths }) {
             <div className="flex w-fit gap-2 mx-auto">
               {path.skills.map((skill, index) => (
                 <p
-                  className="bg-gray-100 border border-gray-300 dark:bg-neutral-800 px-2 py-1 rounded-lg text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                  className="bg-gray-100 border border-gray-300 dark:border-neutral-800 dark:bg-neutral-900 px-2 py-1 rounded-lg text-gray-700 dark:text-gray-300 whitespace-nowrap"
                   key={index}
                 >
                   {skill}
