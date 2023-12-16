@@ -25,7 +25,7 @@ async function getResult(languages, frameworks) {
       return res.choices[0].message.content;
     })
     .catch((err) => {
-      console.log(err);
+      return err;
     });
 }
 
@@ -97,17 +97,66 @@ function Result({ paths }) {
 
 export default function Home() {
   const [data, setData] = useState(null);
-  useEffect(() => {
-    if (sessionStorage.getItem("userKnowledge")) {
-      const userKnowledge = JSON.parse(sessionStorage.getItem("userKnowledge"));
+  const [error, setError] = useState(null);
 
-      getResult(userKnowledge.lang, userKnowledge.framework).then((result) => {
-        if (JSON.parse(result)) {
-          setData(JSON.parse(result).paths);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (sessionStorage.getItem("userKnowledge")) {
+        try {
+          const userKnowledge = JSON.parse(
+            sessionStorage.getItem("userKnowledge")
+          );
+          const result = await getResult(
+            userKnowledge.lang,
+            userKnowledge.framework
+          );
+          const parsedResult = JSON.parse(result);
+          if (parsedResult) {
+            parsedResult.paths.map((path) => [
+              path.title,
+              path.description,
+              path.skills,
+            ]); // To test if the result is in the correct format
+            setData(parsedResult.paths);
+          }
+        } catch (err) {
+          setError(err);
         }
-      });
-    }
+      }
+    };
+
+    fetchData();
   }, []);
+
+  if (error) {
+    return (
+      <main
+        className=" max-w-7xl mx-auto px-8 sm:px-16 w-screen"
+        id="mainContent"
+      >
+        <div className="flex flex-col items-center h-full gap-10 justify-center max-w-3xl mx-auto text-center">
+          <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-gray-100">
+            There was an error ‼️
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400">
+            There was an unexpected error while getting data from OpenAI. Please
+            check your internet connection and try again.
+          </p>
+          <button
+            className="px-12 py-4 rounded-lg text-white dark:text-black bg-black dark:bg-white hover:bg-neutral-800 dark:hover:bg-gray-200 font-bold active:scale-[0.98] active:duration-200 transition"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Try Again
+          </button>
+          <p className="text-gray-500 dark:text-gray-400">
+            For more information, open the console. (⌘ + ⌥ + I)
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className=" max-w-7xl mx-auto px-8 sm:px-16 w-screen">
