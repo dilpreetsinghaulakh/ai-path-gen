@@ -1,9 +1,11 @@
 import Image from "next/image";
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+  
   return (
     <footer className="h-16 flex justify-center items-center gap-6">
-      <p>© 2023 Dilpreet Singh</p>
+      <p>© {year} Dilpreet Singh</p>
       <div className="hidden sm:flex text-sm items-center  gap-2 bg-black border border-neutral-700 text-white px-4 py-2 rounded-lg">
         Built with{" "}
         <Image
